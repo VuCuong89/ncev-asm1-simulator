@@ -1,0 +1,21 @@
+{
+  "app": "NCEV AO ASM1 Simulator",
+  "version": "Cloud MVP v1.0",
+  "entrypoint": "app.py",
+  "hosting_target": "Streamlit Community Cloud",
+  "python_recommended": [
+    "3.12",
+    "3.13"
+  ],
+  "dependencies": [
+    "streamlit",
+    "numpy",
+    "scipy",
+    "pandas",
+    "plotly"
+  ],
+  "end_user_installation": "none",
+  "persistent_database": false,
+  "authentication": false,
+  "model_engine": "ASM1 + SciPy BDF"
+}
