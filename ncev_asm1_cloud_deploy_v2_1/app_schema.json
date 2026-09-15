@@ -1,0 +1,17 @@
+{
+  "version": "Cloud v2.0",
+  "inputs": {
+    "influent": ["q", "cod", "bod5", "tss", "nh4", "tn", "nox", "alkalinity", "dissolved_oxygen", "temperature", "tp"],
+    "process": ["v_anoxic", "v_aerobic", "internal_recycle_ratio", "ras_ratio", "was_flow_or_target_srt", "clarifier_capture", "kla_aerobic", "do_saturation", "simulation_days"],
+    "carbon": ["source", "purity_pct", "density_kg_l", "tn_target"],
+    "naoh": ["concentration_pct", "density_kg_l", "target_alkalinity_mg_l_as_caco3"],
+    "phosphorus": ["tp_in_mg_l", "biological_removal_pct", "tp_target_mg_l", "chemical", "product_density_kg_l", "wet_sludge_ts_pct"]
+  },
+  "outputs": {
+    "biological": ["cod_eff", "bod5_eff", "tss_eff", "nh4_eff", "nox_eff", "tn_eff", "do_eff", "alk_eff", "srt_d", "mlss_anoxic", "mlss_aerobic"],
+    "carbon": ["added_cod_mg_l", "pure_chemical_kg_d", "solution_kg_d", "solution_l_d", "solution_l_h"],
+    "naoh": ["alkalinity_deficit_mg_l_as_caco3", "pure_naoh_kg_d", "solution_kg_d", "solution_l_d", "solution_l_h"],
+    "phosphorus": ["tp_after_bio_mg_l", "p_remove_mg_l", "p_remove_kg_d", "product_dose_mg_l", "product_kg_d", "chemical_sludge_ds_kg_d"],
+    "sludge": ["biological_was_ds_kg_d", "chemical_sludge_ds_kg_d", "total_ds_kg_d", "wet_sludge_m3_d"]
+  }
+}
