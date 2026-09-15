@@ -24,7 +24,7 @@ from chemistry import (
 )
 from i18n import LANG_OPTIONS, tr
 
-APP_VERSION = "Cloud v2.1"
+APP_VERSION = "Cloud v2.2"
 NCEV_BLUE = "#075DA8"
 NCEV_CYAN = "#19A9C7"
 NCEV_NAVY = "#0A365D"
@@ -39,89 +39,209 @@ st.set_page_config(
 st.markdown(
     f"""
 <style>
-/* ===== NCEV Cloud v2.1: force light theme for consistent rendering ===== */
 :root {{
   color-scheme: light !important;
+  --ncev-blue: {NCEV_BLUE};
+  --ncev-cyan: {NCEV_CYAN};
+  --ncev-navy: {NCEV_NAVY};
+  --text-main: #16324A;
+  --text-soft: #556B7D;
+  --bg-soft: #F7FBFE;
+  --border-soft: #C8DAE6;
+  --btn-soft: #EAF5FB;
 }}
 html, body, [data-testid="stAppViewContainer"], .stApp {{
   background: #FFFFFF !important;
-  color: #15324A !important;
+  color: var(--text-main) !important;
 }}
-[data-testid="stAppViewContainer"] > .main {{
+[data-testid="stAppViewContainer"] > .main,
+[data-testid="stHeader"],
+section[data-testid="stSidebar"] > div:first-child {{
   background: #FFFFFF !important;
 }}
-[data-testid="stHeader"] {{
-  background: rgba(255,255,255,0.96) !important;
+section[data-testid="stSidebar"] > div:first-child {{
+  border-left: 1px solid #E3EEF5;
 }}
-[data-testid="stSidebar"] > div:first-child {{
-  background: #F4FAFD !important;
+.block-container {{
+  padding-top: 0.8rem;
+  padding-bottom: 2.5rem;
+  max-width: 1550px;
 }}
-.block-container {{padding-top: 0.8rem; padding-bottom: 2.5rem; max-width: 1550px;}}
 
-/* Typography */
-.stMarkdown, .stMarkdown p, .stMarkdown li,
+/* global text */
+.stMarkdown, .stMarkdown p, .stMarkdown li, .stCaption,
 [data-testid="stWidgetLabel"] p, label,
 [data-testid="stMetricLabel"], [data-testid="stMetricValue"], [data-testid="stMetricDelta"],
 [data-testid="stCaptionContainer"], [data-testid="stSidebar"] {{
-  color: #15324A !important;
+  color: var(--text-main) !important;
 }}
-h1, h2, h3, h4, h5, h6 {{color:{NCEV_NAVY} !important;}}
-[data-testid="stMetricValue"] {{font-size: 1.5rem;}}
+h1, h2, h3, h4, h5, h6 {{ color: var(--ncev-navy) !important; }}
+[data-testid="stMetricValue"] {{ font-size: 1.45rem; }}
 
-/* Input controls stay light even when browser/Streamlit preference is dark */
+/* top toolbar / share buttons */
+[data-testid="stToolbar"] button,
+[data-testid="stToolbar"] a,
+[data-testid="stToolbarActions"] button,
+[data-testid="stToolbarActions"] a {{
+  background: #F4F8FB !important;
+  color: var(--text-main) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 8px !important;
+}}
+[data-testid="stToolbar"] svg,
+[data-testid="stToolbarActions"] svg {{
+  fill: var(--text-main) !important;
+  color: var(--text-main) !important;
+  stroke: var(--text-main) !important;
+}}
+
+/* Inputs */
 input, textarea, [data-baseweb="input"] > div, [data-baseweb="select"] > div,
 [data-baseweb="base-input"], [role="listbox"] {{
   background-color:#FFFFFF !important;
-  color:#15324A !important;
+  color: var(--text-main) !important;
 }}
-input, textarea {{
-  -webkit-text-fill-color:#15324A !important;
+input, textarea {{ -webkit-text-fill-color: var(--text-main) !important; }}
+[data-baseweb="select"] > div {{
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 10px !important;
+  min-height: 2.65rem !important;
 }}
-[data-baseweb="select"] span, [data-baseweb="select"] div {{
-  color:#15324A !important;
+[data-baseweb="select"] span, [data-baseweb="select"] div {{ color: var(--text-main) !important; }}
+[data-testid="stNumberInput"] > div,
+[data-testid="stTextInput"] > div {{
+  border-radius: 10px !important;
+}}
+[data-testid="stNumberInput"] [data-baseweb="input"] > div,
+[data-testid="stTextInput"] [data-baseweb="input"] > div {{
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  background: #FFFFFF !important;
+}}
+[data-testid="stNumberInput"] button,
+[data-testid="stTextInput"] button {{
+  background: var(--btn-soft) !important;
+  color: var(--ncev-blue) !important;
+  border: 1px solid #D7EAF5 !important;
+}}
+[data-testid="stNumberInput"] button:hover,
+[data-testid="stTextInput"] button:hover,
+[data-baseweb="select"] > div:hover {{
+  background: #DFF1FB !important;
+}}
+[data-testid="stNumberInput"] input {{
+  border-left: 1px solid #E5EEF4 !important;
 }}
 
+/* Buttons */
+.stButton > button {{
+  border-radius: 10px !important;
+  border: 1px solid #B8D2E1 !important;
+  font-weight: 600 !important;
+}}
+.stButton > button[kind="primary"] {{
+  background: linear-gradient(180deg, #1B8DD8 0%, #0E66B2 100%) !important;
+  color: #FFFFFF !important;
+  border-color: #0E66B2 !important;
+}}
+.stButton > button[kind="primary"] * {{ color: #FFFFFF !important; }}
+.stButton > button:not([kind="primary"]) {{
+  background: #F4F9FD !important;
+  color: var(--ncev-navy) !important;
+}}
+.stButton > button:not([kind="primary"]) * {{ color: var(--ncev-navy) !important; }}
+
 /* Tabs / expanders */
-[data-baseweb="tab-list"] {{background:#FFFFFF !important;}}
-[data-baseweb="tab"] {{color:#31546E !important;}}
-[data-baseweb="tab"][aria-selected="true"] {{color:{NCEV_BLUE} !important;}}
+[data-baseweb="tab-list"] {{ background: #FFFFFF !important; gap: .25rem; }}
+[data-baseweb="tab"] {{
+  color: var(--text-main) !important;
+  background: #F5FAFD !important;
+  border: 1px solid #DCEAF2 !important;
+  border-radius: 8px 8px 0 0 !important;
+}}
+[data-baseweb="tab"] * {{ color: var(--text-main) !important; }}
+[data-baseweb="tab"][aria-selected="true"] {{
+  color: var(--ncev-blue) !important;
+  background: #EAF6FC !important;
+  border-bottom-color: #EAF6FC !important;
+}}
+[data-baseweb="tab"][aria-selected="true"] * {{ color: var(--ncev-blue) !important; }}
 [data-testid="stExpander"] {{
-  background:#FFFFFF !important;
-  border:1px solid #D6E6EF !important;
-  border-radius:8px !important;
+  background: #FFFFFF !important;
+  border: 1px solid #D6E6EF !important;
+  border-radius: 8px !important;
+}}
+
+/* Metric cards */
+[data-testid="stMetric"] {{
+  background: #FFFFFF !important;
+  border: 1px solid #D8E7F0 !important;
+  border-radius: 10px !important;
+  padding: .65rem .85rem !important;
+  box-shadow: 0 1px 2px rgba(15, 59, 96, 0.04);
+}}
+[data-testid="stMetricLabel"], [data-testid="stMetricValue"], [data-testid="stMetricDelta"] {{
+  color: var(--text-main) !important;
 }}
 
 /* Header */
 .ncev-header {{
-  display:flex; align-items:center; min-height:92px;
-  border-bottom:3px solid {NCEV_CYAN};
-  padding:4px 0 10px 0; margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  min-height:96px;
+  border-bottom:3px solid var(--ncev-cyan);
+  padding:4px 0 10px 0;
+  margin-bottom:8px;
 }}
 .ncev-logo {{
-  height:90px; width:auto; max-width:390px; object-fit:contain;
+  height:92px;
+  width:auto;
+  max-width:430px;
+  object-fit:contain;
   object-position:left center;
 }}
-.ncev-title {{color:{NCEV_NAVY}; font-weight:800; font-size:1.75rem; line-height:1.15; margin-top:0.15rem;}}
-.ncev-sub {{color:#536878; font-size:0.94rem; margin-top:0.15rem;}}
-.section-title {{color:{NCEV_NAVY}; font-size:1.08rem; font-weight:800; margin:0.45rem 0 0.55rem;}}
-.info-card {{border-left:4px solid {NCEV_CYAN}; padding:0.55rem 0.8rem; background:#F7FBFD; border-radius:6px; color:#15324A !important;}}
+.ncev-title {{
+  color: var(--ncev-navy);
+  font-weight: 800;
+  font-size: 1.75rem;
+  line-height: 1.15;
+  margin-top: 0.15rem;
+}}
+.ncev-sub {{ color: var(--text-soft); font-size: 0.94rem; margin-top: 0.15rem; }}
+.section-title {{ color: var(--ncev-navy); font-size: 1.08rem; font-weight: 800; margin: 0.45rem 0 0.55rem; }}
+.info-card {{ border-left: 4px solid var(--ncev-cyan); padding: 0.55rem 0.8rem; background: var(--bg-soft); border-radius: 6px; color: var(--text-main) !important; }}
 .chem-card {{
-  border:1px solid #CFE2EC;
+  border:1px solid #D6E6EF;
   padding:0.78rem 0.95rem;
   border-radius:9px;
   background:#F8FCFE !important;
-  color:#15324A !important;
+  color:var(--text-main) !important;
 }}
-.chem-card, .chem-card * {{color:#15324A !important;}}
-.small {{font-size:0.84rem;color:#637786;}}
+.chem-card, .chem-card * {{ color: var(--text-main) !important; }}
+.small {{ font-size:0.84rem; color: var(--text-soft); }}
 
-/* Alerts: preserve contrast */
-[data-testid="stAlert"] {{color:#15324A !important;}}
-
-/* Secondary buttons on light background */
-.stButton > button:not([kind="primary"]) {{
-  background:#FFFFFF !important; color:{NCEV_BLUE} !important; border:1px solid #B9D5E4 !important;
+/* Dataframe / table */
+[data-testid="stDataFrame"] {{
+  background: #FFFFFF !important;
+  border: 1px solid #D8E7F0 !important;
+  border-radius: 10px !important;
 }}
+[data-testid="stDataFrame"] * {{
+  color: var(--text-main) !important;
+}}
+[data-testid="stTable"] table {{
+  background: #FFFFFF !important;
+  color: var(--text-main) !important;
+  border: 1px solid #D8E7F0 !important;
+}}
+[data-testid="stTable"] th, [data-testid="stTable"] td {{
+  border-color: #D8E7F0 !important;
+  color: var(--text-main) !important;
+}}
+
+/* Alerts */
+[data-testid="stAlert"] {{ color: var(--text-main) !important; }}
 </style>
 """,
     unsafe_allow_html=True,
@@ -148,6 +268,34 @@ def fmtv(x, n=2):
 
 def metric_card(label, value, unit="", delta=None):
     st.metric(label, f"{value} {unit}".strip(), delta=delta)
+
+
+def apply_fig_theme(fig, x_title, y_title, height=400):
+    fig.update_layout(
+        height=height,
+        xaxis_title=x_title,
+        yaxis_title=y_title,
+        margin=dict(l=20, r=20, t=20, b=20),
+        paper_bgcolor="#FFFFFF",
+        plot_bgcolor="#FFFFFF",
+        font=dict(color="#16324A"),
+        legend=dict(bgcolor="rgba(255,255,255,0.9)", bordercolor="#D8E7F0", borderwidth=1),
+    )
+    fig.update_xaxes(showgrid=True, gridcolor="#E8F0F5", zeroline=False, linecolor="#C7D8E4")
+    fig.update_yaxes(showgrid=True, gridcolor="#E8F0F5", zeroline=False, linecolor="#C7D8E4")
+    return fig
+
+
+def style_df(df):
+    return (
+        df.style
+        .set_properties(**{"background-color": "#FFFFFF", "color": "#16324A", "border-color": "#D8E7F0"})
+        .set_table_styles([
+            {"selector": "th", "props": [("background-color", "#F2F8FC"), ("color", "#16324A"), ("border", "1px solid #D8E7F0")]},
+            {"selector": "td", "props": [("border", "1px solid #D8E7F0"), ("color", "#16324A")]},
+            {"selector": "table", "props": [("border-collapse", "collapse"), ("background-color", "#FFFFFF")]}
+        ])
+    )
 
 
 def make_inputs(lang: str):
@@ -392,22 +540,22 @@ def show_results(case,lang):
         fig=go.Figure()
         for y,name in [("nh4_eff","NH4-N"),("nox_eff","NOx-N"),("tn_eff","TN")]:
             fig.add_trace(go.Scatter(x=df.time_d,y=df[y],name=name))
-        fig.update_layout(height=400,xaxis_title="Time (d)",yaxis_title="mgN/L",margin=dict(l=20,r=20,t=20,b=20))
+        apply_fig_theme(fig, "Time (d)", "mgN/L", 400)
         st.plotly_chart(fig,use_container_width=True)
     with tab2:
         fig=go.Figure()
         for y,name in [("cod_eff","COD"),("bod5_eff","BOD5"),("do_eff","DO")]:
             fig.add_trace(go.Scatter(x=df.time_d,y=df[y],name=name))
-        fig.update_layout(height=400,xaxis_title="Time (d)",yaxis_title="mg/L",margin=dict(l=20,r=20,t=20,b=20))
+        apply_fig_theme(fig, "Time (d)", "mg/L", 400)
         st.plotly_chart(fig,use_container_width=True)
     with tab3:
         fig=go.Figure()
         for y,name in [("mlss_anoxic","MLSS Anoxic"),("mlss_aerobic","MLSS Aerobic")]:
             fig.add_trace(go.Scatter(x=df.time_d,y=df[y],name=name))
-        fig.update_layout(height=350,xaxis_title="Time (d)",yaxis_title="mg/L",margin=dict(l=20,r=20,t=20,b=20))
+        apply_fig_theme(fig, "Time (d)", "mg/L", 350)
         st.plotly_chart(fig,use_container_width=True)
         fig2=go.Figure(go.Scatter(x=df.time_d,y=df.srt_d,name="SRT"))
-        fig2.update_layout(height=280,xaxis_title="Time (d)",yaxis_title="d",margin=dict(l=20,r=20,t=20,b=20))
+        apply_fig_theme(fig2, "Time (d)", "d", 280)
         st.plotly_chart(fig2,use_container_width=True)
 
     c1,c2=st.columns(2)
@@ -434,11 +582,11 @@ def show_results(case,lang):
             "Aerobic":[case["final"]["states"]["aerobic_final"][s] for s in STATE_NAMES],
             "Effluent":[case["final"]["states"]["effluent_final"][s] for s in STATE_NAMES],
         })
-        st.dataframe(state_df,use_container_width=True,hide_index=True)
+        st.dataframe(style_df(state_df),use_container_width=True,hide_index=True)
 
 
 # Header and language
-h1,h2=st.columns([1.1,4.2])
+h1,h2=st.columns([4.7,1.3])
 with h1:
     st.markdown(
         f'<div class="ncev-header"><img class="ncev-logo" src="{LOGO_URL}" alt="NCEV"></div>',
@@ -514,7 +662,8 @@ with compare_tab:
             rows=[]
             for label,key,unit in [("COD","cod_eff","mg/L"),("NH4-N","nh4_eff","mgN/L"),("NOx-N","nox_eff","mgN/L"),("TN","tn_eff","mgN/L"),("SRT","srt_d","d"),("MLSS aerobic","mlss_aerobic","mg/L")]:
                 rows.append([label,B[key],S[key],S[key]-B[key],unit])
-            st.dataframe(pd.DataFrame(rows,columns=["KPI","Base","Scenario","Δ","Unit"]),use_container_width=True,hide_index=True)
+            comp_df = pd.DataFrame(rows,columns=["KPI","Base","Scenario","Δ","Unit"])
+            st.dataframe(style_df(comp_df),use_container_width=True,hide_index=True)
 
 st.divider()
 st.caption("NCEV Cloud v2.1 · ASM1 + SciPy BDF · Engineering screening / scenario analysis. Calibrate against plant data before design guarantees.")
