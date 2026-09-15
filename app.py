@@ -24,7 +24,7 @@ from chemistry import (
 )
 from i18n import LANG_OPTIONS, tr
 
-APP_VERSION = "Cloud v2.5"
+APP_VERSION = "Cloud v2.6"
 NCEV_BLUE = "#075DA8"
 NCEV_CYAN = "#19A9C7"
 NCEV_NAVY = "#0A365D"
@@ -39,102 +39,127 @@ st.set_page_config(
 st.markdown(
     f"""
 <style>
-:root {{
-  color-scheme: light !important;
-  --ncev-blue: {NCEV_BLUE};
-  --ncev-cyan: {NCEV_CYAN};
-  --ncev-navy: {NCEV_NAVY};
-  --text-main: #17324A;
-  --text-soft: #4E6577;
-  --border: #A8C2D2;
-  --border-light: #D4E3EC;
+/* Cloud v2.6: native Streamlit Light Theme first, minimal CSS only for custom layout. */
+.block-container {{
+    padding-top: 0.7rem;
+    padding-bottom: 2.5rem;
+    max-width: 1550px;
 }}
-html, body, [data-testid="stAppViewContainer"], .stApp,
-[data-testid="stAppViewContainer"] > .main, [data-testid="stHeader"] {{
-  background:#FFFFFF !important; color:var(--text-main) !important;
+
+.ncev-header {{
+    display: flex;
+    align-items: center;
+    min-height: 205px;
+    border-bottom: 3px solid {NCEV_CYAN};
+    padding: 2px 0 8px;
+    margin-bottom: 8px;
 }}
-.block-container {{padding-top:.7rem; padding-bottom:2.5rem; max-width:1550px;}}
-section[data-testid="stSidebar"] > div:first-child {{background:#F6FBFE !important;}}
-.stMarkdown, .stMarkdown *, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] *,
-[data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] *, [data-testid="stSidebar"] {{color:var(--text-main) !important;}}
-h1,h2,h3,h4,h5,h6 {{color:var(--ncev-navy) !important;}}
-
-.ncev-header {{display:flex; align-items:center; min-height:205px; border-bottom:3px solid var(--ncev-cyan); padding:2px 0 8px; margin-bottom:8px;}}
-.ncev-logo {{height:208px; width:auto; max-width:760px; object-fit:contain; object-position:left center; display:block;}}
-.ncev-title {{color:var(--ncev-navy); font-weight:800; font-size:1.75rem; line-height:1.15; margin-top:.15rem;}}
-.ncev-sub {{color:var(--text-soft); font-size:.94rem; margin-top:.15rem;}}
-.section-title {{color:var(--ncev-navy); font-size:1.08rem; font-weight:800; margin:.45rem 0 .55rem;}}
-.chem-card {{border:1px solid var(--border-light); padding:.78rem .95rem; border-radius:9px; background:#F8FCFE !important; color:var(--text-main) !important;}}
-.chem-card * {{color:var(--text-main) !important;}}
-
-/* Number inputs: wipe nested borders, keep one shell border */
-[data-testid="stNumberInput"] div[data-baseweb="input"] {{
-  border:0 !important; box-shadow:0 0 0 1px var(--border) !important; outline:0 !important;
-  border-radius:10px !important; overflow:hidden !important; background:#FFFFFF !important;
+.ncev-logo {{
+    height: 208px;
+    width: auto;
+    max-width: 760px;
+    object-fit: contain;
+    object-position: left center;
+    display: block;
 }}
-[data-testid="stNumberInput"] div[data-baseweb="input"] *:not(button):not(svg):not(path) {{
-  border:0 !important; box-shadow:none !important; outline:0 !important; background:#FFFFFF !important;
+.ncev-title {{
+    color: {NCEV_NAVY};
+    font-weight: 800;
+    font-size: 1.75rem;
+    line-height: 1.15;
+    margin-top: .15rem;
 }}
-[data-testid="stNumberInput"] input {{color:var(--text-main) !important; -webkit-text-fill-color:var(--text-main) !important; caret-color:var(--ncev-blue) !important;}}
-[data-testid="stNumberInput"] div[data-baseweb="input"]:focus-within {{box-shadow:0 0 0 1.5px #4C9DCC !important;}}
-[data-testid="stNumberInput"] button {{
-  background:#E6F4FC !important; color:#075DA8 !important; border:0 !important;
-  border-left:1px solid #C6DEEB !important; box-shadow:none !important; outline:0 !important;
+.ncev-sub {{
+    color: #4E6577;
+    font-size: .94rem;
+    margin-top: .15rem;
 }}
-[data-testid="stNumberInput"] button *, [data-testid="stNumberInput"] button svg,
-[data-testid="stNumberInput"] button svg * {{color:#075DA8 !important; fill:#075DA8 !important; stroke:#075DA8 !important; opacity:1 !important;}}
-[data-testid="stNumberInput"] button:hover {{background:#D7EEFA !important;}}
-
-/* Select boxes: always light */
-[data-testid="stSelectbox"] div[data-baseweb="select"] > div {{
-  background:#FFFFFF !important; color:var(--text-main) !important; border:0 !important;
-  box-shadow:0 0 0 1px var(--border) !important; border-radius:10px !important;
-  min-height:2.75rem !important; overflow:hidden !important;
+.section-title {{
+    color: {NCEV_NAVY};
+    font-size: 1.08rem;
+    font-weight: 800;
+    margin: .45rem 0 .55rem;
 }}
-[data-testid="stSelectbox"] div[data-baseweb="select"] > div > div {{background:#FFFFFF !important; color:var(--text-main) !important; border:0 !important; box-shadow:none !important;}}
-[data-testid="stSelectbox"] div[data-baseweb="select"] > div:focus-within {{box-shadow:0 0 0 1.5px #4C9DCC !important;}}
-[data-testid="stSelectbox"] span, [data-testid="stSelectbox"] div, [data-testid="stSelectbox"] p {{color:var(--text-main) !important; opacity:1 !important;}}
-[data-testid="stSelectbox"] svg, [data-testid="stSelectbox"] svg * {{fill:var(--ncev-navy) !important; stroke:var(--ncev-navy) !important; color:var(--ncev-navy) !important; opacity:1 !important;}}
-[data-baseweb="popover"], [data-baseweb="menu"], [role="listbox"] {{background:#FFFFFF !important; color:var(--text-main) !important;}}
-[role="option"], [role="option"] *, [data-baseweb="menu"] li, [data-baseweb="menu"] li * {{background:#FFFFFF !important; color:var(--text-main) !important; opacity:1 !important;}}
-[role="option"]:hover, [role="option"][aria-selected="true"] {{background:#EAF6FC !important; color:var(--ncev-navy) !important;}}
+.chem-card {{
+    border: 1px solid #C9DAE4;
+    padding: .78rem .95rem;
+    border-radius: 9px;
+    background: #F8FCFE;
+    color: #17324A;
+}}
+.chem-card * {{ color: #17324A; }}
 
-.stButton > button {{background:#EAF6FC !important; color:var(--ncev-navy) !important; border:1px solid #AFCBDD !important; border-radius:9px !important; font-weight:700 !important; opacity:1 !important;}}
-.stButton > button *, .stButton > button svg, .stButton > button svg * {{color:var(--ncev-navy) !important; fill:var(--ncev-navy) !important; stroke:var(--ncev-navy) !important; opacity:1 !important;}}
-.stButton > button[kind="primary"] {{background:#0B76BF !important; color:#FFFFFF !important; border-color:#075DA8 !important;}}
-.stButton > button[kind="primary"] *, .stButton > button[kind="primary"] svg * {{color:#FFFFFF !important; fill:#FFFFFF !important; stroke:#FFFFFF !important;}}
+/* Custom KPI cards only. Native st.metric is avoided for key values to prevent truncation. */
+.kpi-card {{
+    background: #FFFFFF;
+    border: 1px solid #CFE0EA;
+    border-radius: 11px;
+    padding: .75rem 1rem .8rem;
+    min-height: 112px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: visible;
+}}
+.kpi-label {{
+    font-size: .92rem;
+    color: #29465C;
+    margin-bottom: .38rem;
+    line-height: 1.15;
+}}
+.kpi-row {{
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: .28rem;
+}}
+.kpi-value {{
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.05;
+    color: #0D3A5A;
+    white-space: nowrap;
+}}
+.kpi-unit {{
+    font-size: .8rem;
+    font-weight: 500;
+    color: #60798B;
+    white-space: nowrap;
+}}
+.kpi-delta {{
+    font-size: .78rem;
+    color: #60798B;
+    margin-top: .3rem;
+}}
 
-[data-testid="stDownloadButton"] > button {{background:#DFF1FB !important; color:var(--ncev-navy) !important; border:1px solid #9FC5DB !important; border-radius:9px !important; font-weight:700 !important; opacity:1 !important;}}
-[data-testid="stDownloadButton"] > button *, [data-testid="stDownloadButton"] svg, [data-testid="stDownloadButton"] svg * {{color:var(--ncev-navy) !important; fill:var(--ncev-navy) !important; stroke:var(--ncev-navy) !important; opacity:1 !important;}}
+/* Scenario table is custom HTML for predictable contrast. */
+.scenario-table {{
+    width: 100%;
+    border-collapse: collapse;
+    background: #FFFFFF;
+    color: #17324A;
+    font-size: .95rem;
+}}
+.scenario-table th {{
+    background: #E8F3F9;
+    color: #123E5B;
+    border: 1px solid #AFC8D8;
+    padding: .65rem .7rem;
+    text-align: left;
+    font-weight: 800;
+}}
+.scenario-table td {{
+    background: #FFFFFF;
+    color: #17324A;
+    border: 1px solid #D1E0E9;
+    padding: .6rem .7rem;
+}}
 
-[data-testid="stRadio"] > div {{gap:.35rem !important;}}
-[data-testid="stRadio"] label {{background:#F1F7FB !important; border:1px solid #BBD3E2 !important; border-radius:8px !important; padding:.35rem .8rem !important; color:var(--ncev-navy) !important; opacity:1 !important;}}
-[data-testid="stRadio"] label *, [data-testid="stRadio"] label p {{color:var(--ncev-navy) !important; opacity:1 !important;}}
-[data-testid="stRadio"] label:has(input:checked) {{background:#DFF1FB !important; border-color:#62A9D5 !important;}}
-[data-testid="stRadio"] label:has(input:checked) * {{color:#075DA8 !important; font-weight:700 !important;}}
-
-/* Custom KPI cards */
-.kpi-card {{background:#FFFFFF; border:1px solid #CFE0EA; border-radius:11px; padding:.75rem 1rem .8rem; min-height:112px; display:flex; flex-direction:column; justify-content:center; overflow:visible;}}
-.kpi-label {{font-size:.92rem; color:#29465C; margin-bottom:.38rem; line-height:1.15;}}
-.kpi-row {{display:flex; align-items:baseline; flex-wrap:wrap; gap:.28rem;}}
-.kpi-value {{font-size:2rem; font-weight:500; line-height:1.05; color:#0D3A5A; white-space:nowrap; overflow:visible; text-overflow:clip;}}
-.kpi-unit {{font-size:.8rem; font-weight:500; color:#60798B; white-space:nowrap;}}
-.kpi-delta {{font-size:.78rem; color:#60798B; margin-top:.3rem;}}
-
-[data-testid="stExpander"] {{background:#FFFFFF !important; border:1px solid var(--border-light) !important; border-radius:8px !important;}}
-
-/* Keep Share, hide secondary Cloud toolbar buttons */
+/* Keep Share button; hide secondary Community Cloud toolbar actions. */
 [data-testid="stToolbarActions"] > div > *:not(:first-child),
-[data-testid="stToolbarActions"] > *:not(:first-child) {{display:none !important;}}
-[data-testid="stToolbar"] button, [data-testid="stToolbar"] a,
-[data-testid="stToolbarActions"] button, [data-testid="stToolbarActions"] a {{background:#F2F8FC !important; color:#17324A !important; border:1px solid #B7D0DF !important; border-radius:8px !important; opacity:1 !important;}}
-[data-testid="stToolbar"] svg, [data-testid="stToolbar"] svg *, [data-testid="stToolbarActions"] svg, [data-testid="stToolbarActions"] svg * {{color:#17324A !important; fill:#17324A !important; stroke:#17324A !important; opacity:1 !important;}}
-
-.scenario-table {{width:100%; border-collapse:collapse; background:#FFFFFF; color:var(--text-main); font-size:.95rem;}}
-.scenario-table th {{background:#DCEEF8 !important; color:#123E5B !important; border:1px solid #AFC8D8 !important; padding:.65rem .7rem; text-align:left; font-weight:800;}}
-.scenario-table td {{background:#FFFFFF !important; color:#17324A !important; border:1px solid #D1E0E9 !important; padding:.6rem .7rem;}}
-[data-testid="stDataFrame"] {{background:#FFFFFF !important; border:1px solid var(--border-light) !important; border-radius:10px !important;}}
-[data-testid="stAlert"], [data-testid="stAlert"] * {{color:var(--text-main) !important;}}
+[data-testid="stToolbarActions"] > *:not(:first-child) {{
+    display: none !important;
+}}
 </style>
 """,
     unsafe_allow_html=True,
@@ -598,4 +623,4 @@ else:
             st.markdown(html, unsafe_allow_html=True)
 
 st.divider()
-st.caption("NCEV Cloud v2.5 · ASM1 + SciPy BDF · Engineering screening / scenario analysis. Calibrate against plant data before design guarantees.")
+st.caption("NCEV Cloud v2.6 · ASM1 + SciPy BDF · Engineering screening / scenario analysis. Calibrate against plant data before design guarantees.")

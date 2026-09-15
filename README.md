@@ -63,3 +63,13 @@ Use for engineering screening, learning, scenario comparison and model developme
 - Sửa độ tương phản phần Tối ưu hóa hóa chất.
 - Phóng lớn logo NCEV; bỏ chữ NCEV lặp trong tiêu đề và bỏ slogan bên dưới.
 - Không thay đổi engine ASM1 / carbon / NaOH / P / sludge của v2.
+
+
+## Cloud v2.6 UI strategy
+
+- Pins Streamlit 1.63.0.
+- Uses native Streamlit Light Theme for number inputs, select boxes, buttons and download controls.
+- Uses `showWidgetBorder=true` + `borderColor` for even widget borders.
+- Uses white `secondaryBackgroundColor` so input/selection regions stay light.
+- Custom CSS is intentionally limited to logo/layout, KPI cards, scenario table and hiding secondary Cloud toolbar actions.
+- Do not re-add CSS overrides for BaseWeb number/select internals unless a specific Streamlit version is tested.

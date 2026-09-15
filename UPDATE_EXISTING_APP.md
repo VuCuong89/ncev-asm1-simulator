@@ -1,27 +1,20 @@
-# Update your existing Streamlit app from Cloud v1 to Cloud v2.1
+# Cập nhật / triển khai Cloud v2.6
 
-Your current GitHub repository already contains the working v1 app.
-The safest update is to **keep v1 as rollback** and upload v2 as a new folder.
+## Quan trọng
+Cloud v2.6 dựa vào `.streamlit/config.toml` ở **gốc repository/branch** và Streamlit **1.63.0**.
+Không chỉ thay `app.py`. Hãy upload toàn bộ nội dung v2.6 vào root của branch test.
 
-## Recommended method
+Cấu trúc đúng:
 
-1. In GitHub repository `ncev-asm1-simulator`, click **Add file → Upload files**.
-2. Upload the complete folder:
+```text
+app.py
+asm1_engine.py
+chemistry.py
+fractionation.py
+i18n.py
+requirements.txt
+.streamlit/
+  config.toml
+```
 
-   `ncev_asm1_cloud_deploy_v2`
-
-3. Commit changes.
-4. Open Streamlit Community Cloud.
-5. Open your current app → **Settings**.
-6. Change the main file path from the v1 path to:
-
-   `ncev_asm1_cloud_deploy_v2/app.py`
-
-7. Save / reboot the app.
-8. Wait for the build to finish and test the default case.
-
-## Rollback
-
-If v2 has a problem, change the main file path back to the existing v1 `app.py` path.
-
-This method avoids deleting or overwriting the working version.
+Main file path: `app.py`.
