@@ -24,7 +24,7 @@ from chemistry import (
 )
 from i18n import LANG_OPTIONS, tr
 
-APP_VERSION = "Cloud v2.2"
+APP_VERSION = "Cloud v2.3"
 NCEV_BLUE = "#075DA8"
 NCEV_CYAN = "#19A9C7"
 NCEV_NAVY = "#0A365D"
@@ -108,6 +108,28 @@ input, textarea {{ -webkit-text-fill-color: var(--text-main) !important; }}
   min-height: 2.65rem !important;
 }}
 [data-baseweb="select"] span, [data-baseweb="select"] div {{ color: var(--text-main) !important; }}
+[data-baseweb="select"] svg {{
+  fill: var(--ncev-navy) !important;
+  color: var(--ncev-navy) !important;
+}}
+[data-baseweb="popover"],
+[data-baseweb="menu"],
+[role="listbox"] {{
+  background: #FFFFFF !important;
+  color: var(--text-main) !important;
+}}
+[role="option"],
+[role="option"] *,
+[data-baseweb="menu"] li,
+[data-baseweb="menu"] li * {{
+  background: #FFFFFF !important;
+  color: var(--text-main) !important;
+}}
+[role="option"]:hover,
+[role="option"][aria-selected="true"] {{
+  background: #EAF6FC !important;
+  color: var(--ncev-navy) !important;
+}}
 [data-testid="stNumberInput"] > div,
 [data-testid="stTextInput"] > div {{
   border-radius: 10px !important;
@@ -195,9 +217,9 @@ input, textarea {{ -webkit-text-fill-color: var(--text-main) !important; }}
   margin-bottom:8px;
 }}
 .ncev-logo {{
-  height:92px;
+  height:104px;
   width:auto;
-  max-width:430px;
+  max-width:470px;
   object-fit:contain;
   object-position:left center;
 }}
