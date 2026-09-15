@@ -37,7 +37,7 @@ cfg_srt,result_srt=solve_was_for_target_srt(fx['influent_state'],fx['anoxic_init
 assert result_srt['final']['solver_ok']
 assert cfg_srt.was_flow > 0
 
-print('CLOUD V2 SMOKE TEST PASS')
+print('CLOUD V3 SMOKE TEST PASS')
 print('base TN',round(base['final']['tn_eff'],3),'NH4',round(base['final']['nh4_eff'],3))
 print('carbon COD mg/L',round(carb['dose']['added_cod_mg_l'],3),'solution L/d',round(carb['dose']['solution_l_d'],3),'final TN',round(final['final']['tn_eff'],3))
 print('NaOH L/d',round(na['solution_l_d'],3))
