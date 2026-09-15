@@ -24,7 +24,7 @@ from chemistry import (
 )
 from i18n import LANG_OPTIONS, tr
 
-APP_VERSION = "Cloud v2.4"
+APP_VERSION = "Cloud v2.5"
 NCEV_BLUE = "#075DA8"
 NCEV_CYAN = "#19A9C7"
 NCEV_NAVY = "#0A365D"
@@ -46,31 +46,19 @@ st.markdown(
   --ncev-navy: {NCEV_NAVY};
   --text-main: #17324A;
   --text-soft: #4E6577;
-  --border: #9FBDD0;
+  --border: #A8C2D2;
   --border-light: #D4E3EC;
-  --bg-soft: #F5FAFD;
-  --bg-blue: #EAF6FC;
 }}
-
-/* ===== Page ===== */
 html, body, [data-testid="stAppViewContainer"], .stApp,
-[data-testid="stAppViewContainer"] > .main,
-[data-testid="stHeader"] {{
-  background: #FFFFFF !important;
-  color: var(--text-main) !important;
+[data-testid="stAppViewContainer"] > .main, [data-testid="stHeader"] {{
+  background:#FFFFFF !important; color:var(--text-main) !important;
 }}
 .block-container {{padding-top:.7rem; padding-bottom:2.5rem; max-width:1550px;}}
 section[data-testid="stSidebar"] > div:first-child {{background:#F6FBFE !important;}}
-
-/* ===== Text: never allow white-on-white ===== */
-.stMarkdown, .stMarkdown *,
-[data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] *,
-[data-testid="stMetric"], [data-testid="stMetric"] *,
-[data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] *,
-[data-testid="stSidebar"] {{color:var(--text-main) !important;}}
+.stMarkdown, .stMarkdown *, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] *,
+[data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] *, [data-testid="stSidebar"] {{color:var(--text-main) !important;}}
 h1,h2,h3,h4,h5,h6 {{color:var(--ncev-navy) !important;}}
 
-/* ===== Header ===== */
 .ncev-header {{display:flex; align-items:center; min-height:205px; border-bottom:3px solid var(--ncev-cyan); padding:2px 0 8px; margin-bottom:8px;}}
 .ncev-logo {{height:208px; width:auto; max-width:760px; object-fit:contain; object-position:left center; display:block;}}
 .ncev-title {{color:var(--ncev-navy); font-weight:800; font-size:1.75rem; line-height:1.15; margin-top:.15rem;}}
@@ -79,130 +67,73 @@ h1,h2,h3,h4,h5,h6 {{color:var(--ncev-navy) !important;}}
 .chem-card {{border:1px solid var(--border-light); padding:.78rem .95rem; border-radius:9px; background:#F8FCFE !important; color:var(--text-main) !important;}}
 .chem-card * {{color:var(--text-main) !important;}}
 
-/* ===== Number input: ONE uniform border only ===== */
+/* Number inputs: wipe nested borders, keep one shell border */
 [data-testid="stNumberInput"] div[data-baseweb="input"] {{
-  border:1px solid var(--border) !important;
-  box-shadow:none !important;
-  outline:none !important;
-  border-radius:10px !important;
-  overflow:hidden !important;
-  background:#FFFFFF !important;
+  border:0 !important; box-shadow:0 0 0 1px var(--border) !important; outline:0 !important;
+  border-radius:10px !important; overflow:hidden !important; background:#FFFFFF !important;
 }}
-[data-testid="stNumberInput"] div[data-baseweb="input"] > div,
-[data-testid="stNumberInput"] div[data-baseweb="base-input"],
-[data-testid="stNumberInput"] input {{
-  border:none !important;
-  border-top:none !important;
-  border-bottom:none !important;
-  box-shadow:none !important;
-  outline:none !important;
-  background:#FFFFFF !important;
-  color:var(--text-main) !important;
-  -webkit-text-fill-color:var(--text-main) !important;
+[data-testid="stNumberInput"] div[data-baseweb="input"] *:not(button):not(svg):not(path) {{
+  border:0 !important; box-shadow:none !important; outline:0 !important; background:#FFFFFF !important;
 }}
+[data-testid="stNumberInput"] input {{color:var(--text-main) !important; -webkit-text-fill-color:var(--text-main) !important; caret-color:var(--ncev-blue) !important;}}
+[data-testid="stNumberInput"] div[data-baseweb="input"]:focus-within {{box-shadow:0 0 0 1.5px #4C9DCC !important;}}
 [data-testid="stNumberInput"] button {{
-  background:#E6F4FC !important;
-  color:#075DA8 !important;
-  border:none !important;
-  border-left:1px solid #C6DEEB !important;
-  box-shadow:none !important;
+  background:#E6F4FC !important; color:#075DA8 !important; border:0 !important;
+  border-left:1px solid #C6DEEB !important; box-shadow:none !important; outline:0 !important;
 }}
-[data-testid="stNumberInput"] button *,
-[data-testid="stNumberInput"] button svg,
+[data-testid="stNumberInput"] button *, [data-testid="stNumberInput"] button svg,
 [data-testid="stNumberInput"] button svg * {{color:#075DA8 !important; fill:#075DA8 !important; stroke:#075DA8 !important; opacity:1 !important;}}
 [data-testid="stNumberInput"] button:hover {{background:#D7EEFA !important;}}
 
-/* ===== Select boxes incl. language and chemical type ===== */
-[data-baseweb="select"] > div {{
-  background:#FFFFFF !important;
-  color:var(--text-main) !important;
-  border:1px solid var(--border) !important;
-  box-shadow:inset 0 0 0 1px rgba(159,189,208,.08) !important;
-  border-radius:10px !important;
-  min-height:2.65rem !important;
+/* Select boxes: always light */
+[data-testid="stSelectbox"] div[data-baseweb="select"] > div {{
+  background:#FFFFFF !important; color:var(--text-main) !important; border:0 !important;
+  box-shadow:0 0 0 1px var(--border) !important; border-radius:10px !important;
+  min-height:2.75rem !important; overflow:hidden !important;
 }}
-[data-baseweb="select"] > div *, [data-baseweb="select"] span {{color:var(--text-main) !important; opacity:1 !important;}}
-[data-baseweb="select"] svg, [data-baseweb="select"] svg * {{fill:var(--ncev-navy) !important; stroke:var(--ncev-navy) !important; color:var(--ncev-navy) !important; opacity:1 !important;}}
+[data-testid="stSelectbox"] div[data-baseweb="select"] > div > div {{background:#FFFFFF !important; color:var(--text-main) !important; border:0 !important; box-shadow:none !important;}}
+[data-testid="stSelectbox"] div[data-baseweb="select"] > div:focus-within {{box-shadow:0 0 0 1.5px #4C9DCC !important;}}
+[data-testid="stSelectbox"] span, [data-testid="stSelectbox"] div, [data-testid="stSelectbox"] p {{color:var(--text-main) !important; opacity:1 !important;}}
+[data-testid="stSelectbox"] svg, [data-testid="stSelectbox"] svg * {{fill:var(--ncev-navy) !important; stroke:var(--ncev-navy) !important; color:var(--ncev-navy) !important; opacity:1 !important;}}
 [data-baseweb="popover"], [data-baseweb="menu"], [role="listbox"] {{background:#FFFFFF !important; color:var(--text-main) !important;}}
 [role="option"], [role="option"] *, [data-baseweb="menu"] li, [data-baseweb="menu"] li * {{background:#FFFFFF !important; color:var(--text-main) !important; opacity:1 !important;}}
 [role="option"]:hover, [role="option"][aria-selected="true"] {{background:#EAF6FC !important; color:var(--ncev-navy) !important;}}
 
-/* ===== All ordinary buttons ===== */
-.stButton > button {{
-  background:#EAF6FC !important;
-  color:var(--ncev-navy) !important;
-  border:1px solid #AFCBDD !important;
-  border-radius:9px !important;
-  font-weight:700 !important;
-  opacity:1 !important;
-}}
+.stButton > button {{background:#EAF6FC !important; color:var(--ncev-navy) !important; border:1px solid #AFCBDD !important; border-radius:9px !important; font-weight:700 !important; opacity:1 !important;}}
 .stButton > button *, .stButton > button svg, .stButton > button svg * {{color:var(--ncev-navy) !important; fill:var(--ncev-navy) !important; stroke:var(--ncev-navy) !important; opacity:1 !important;}}
 .stButton > button[kind="primary"] {{background:#0B76BF !important; color:#FFFFFF !important; border-color:#075DA8 !important;}}
 .stButton > button[kind="primary"] *, .stButton > button[kind="primary"] svg * {{color:#FFFFFF !important; fill:#FFFFFF !important; stroke:#FFFFFF !important;}}
-.stButton > button:hover {{filter:brightness(.97);}}
 
-/* ===== Download buttons ===== */
-[data-testid="stDownloadButton"] > button {{
-  background:#DFF1FB !important;
-  color:var(--ncev-navy) !important;
-  border:1px solid #9FC5DB !important;
-  border-radius:9px !important;
-  font-weight:700 !important;
-  opacity:1 !important;
-}}
+[data-testid="stDownloadButton"] > button {{background:#DFF1FB !important; color:var(--ncev-navy) !important; border:1px solid #9FC5DB !important; border-radius:9px !important; font-weight:700 !important; opacity:1 !important;}}
 [data-testid="stDownloadButton"] > button *, [data-testid="stDownloadButton"] svg, [data-testid="stDownloadButton"] svg * {{color:var(--ncev-navy) !important; fill:var(--ncev-navy) !important; stroke:var(--ncev-navy) !important; opacity:1 !important;}}
 
-/* ===== Radio navigation used instead of fragile Streamlit tabs ===== */
 [data-testid="stRadio"] > div {{gap:.35rem !important;}}
-[data-testid="stRadio"] label {{
-  background:#F1F7FB !important;
-  border:1px solid #BBD3E2 !important;
-  border-radius:8px !important;
-  padding:.35rem .8rem !important;
-  color:var(--ncev-navy) !important;
-  opacity:1 !important;
-}}
+[data-testid="stRadio"] label {{background:#F1F7FB !important; border:1px solid #BBD3E2 !important; border-radius:8px !important; padding:.35rem .8rem !important; color:var(--ncev-navy) !important; opacity:1 !important;}}
 [data-testid="stRadio"] label *, [data-testid="stRadio"] label p {{color:var(--ncev-navy) !important; opacity:1 !important;}}
 [data-testid="stRadio"] label:has(input:checked) {{background:#DFF1FB !important; border-color:#62A9D5 !important;}}
 [data-testid="stRadio"] label:has(input:checked) * {{color:#075DA8 !important; font-weight:700 !important;}}
 
-/* ===== Expander / metrics ===== */
+/* Custom KPI cards */
+.kpi-card {{background:#FFFFFF; border:1px solid #CFE0EA; border-radius:11px; padding:.75rem 1rem .8rem; min-height:112px; display:flex; flex-direction:column; justify-content:center; overflow:visible;}}
+.kpi-label {{font-size:.92rem; color:#29465C; margin-bottom:.38rem; line-height:1.15;}}
+.kpi-row {{display:flex; align-items:baseline; flex-wrap:wrap; gap:.28rem;}}
+.kpi-value {{font-size:2rem; font-weight:500; line-height:1.05; color:#0D3A5A; white-space:nowrap; overflow:visible; text-overflow:clip;}}
+.kpi-unit {{font-size:.8rem; font-weight:500; color:#60798B; white-space:nowrap;}}
+.kpi-delta {{font-size:.78rem; color:#60798B; margin-top:.3rem;}}
+
 [data-testid="stExpander"] {{background:#FFFFFF !important; border:1px solid var(--border-light) !important; border-radius:8px !important;}}
-[data-testid="stMetric"] {{background:#FFFFFF !important; border:1px solid var(--border-light) !important; border-radius:10px !important; padding:.65rem .85rem !important;}}
-[data-testid="stMetricLabel"], [data-testid="stMetricValue"], [data-testid="stMetricDelta"] {{color:var(--text-main) !important;}}
 
-/* ===== Toolbar: Share / star / edit / menu ===== */
-[data-testid="stToolbar"] button,
-[data-testid="stToolbar"] a,
-[data-testid="stToolbarActions"] button,
-[data-testid="stToolbarActions"] a,
-[data-testid="stToolbar"] button:disabled,
-[data-testid="stToolbarActions"] button:disabled {{
-  background:#F2F8FC !important;
-  color:#17324A !important;
-  border:1px solid #B7D0DF !important;
-  border-radius:8px !important;
-  opacity:1 !important;
-  filter:none !important;
-}}
-[data-testid="stToolbar"] svg,
-[data-testid="stToolbar"] svg *,
-[data-testid="stToolbarActions"] svg,
-[data-testid="stToolbarActions"] svg * {{
-  color:#17324A !important;
-  fill:#17324A !important;
-  stroke:#17324A !important;
-  opacity:1 !important;
-  filter:none !important;
-}}
+/* Keep Share, hide secondary Cloud toolbar buttons */
+[data-testid="stToolbarActions"] > div > *:not(:first-child),
+[data-testid="stToolbarActions"] > *:not(:first-child) {{display:none !important;}}
+[data-testid="stToolbar"] button, [data-testid="stToolbar"] a,
+[data-testid="stToolbarActions"] button, [data-testid="stToolbarActions"] a {{background:#F2F8FC !important; color:#17324A !important; border:1px solid #B7D0DF !important; border-radius:8px !important; opacity:1 !important;}}
+[data-testid="stToolbar"] svg, [data-testid="stToolbar"] svg *, [data-testid="stToolbarActions"] svg, [data-testid="stToolbarActions"] svg * {{color:#17324A !important; fill:#17324A !important; stroke:#17324A !important; opacity:1 !important;}}
 
-/* ===== Tables ===== */
 .scenario-table {{width:100%; border-collapse:collapse; background:#FFFFFF; color:var(--text-main); font-size:.95rem;}}
 .scenario-table th {{background:#DCEEF8 !important; color:#123E5B !important; border:1px solid #AFC8D8 !important; padding:.65rem .7rem; text-align:left; font-weight:800;}}
 .scenario-table td {{background:#FFFFFF !important; color:#17324A !important; border:1px solid #D1E0E9 !important; padding:.6rem .7rem;}}
 [data-testid="stDataFrame"] {{background:#FFFFFF !important; border:1px solid var(--border-light) !important; border-radius:10px !important;}}
-
-/* ===== Alerts ===== */
 [data-testid="stAlert"], [data-testid="stAlert"] * {{color:var(--text-main) !important;}}
 </style>
 """,
@@ -229,7 +160,18 @@ def fmtv(x, n=2):
 
 
 def metric_card(label, value, unit="", delta=None):
-    st.metric(label, f"{value} {unit}".strip(), delta=delta)
+    unit_html = f'<span class="kpi-unit">{unit}</span>' if unit else ""
+    delta_html = f'<div class="kpi-delta">{delta}</div>' if delta is not None else ""
+    html = (
+        '<div class="kpi-card">'
+        f'<div class="kpi-label">{label}</div>'
+        '<div class="kpi-row">'
+        f'<span class="kpi-value">{value}</span>{unit_html}'
+        '</div>'
+        f'{delta_html}'
+        '</div>'
+    )
+    st.markdown(html, unsafe_allow_html=True)
 
 
 def apply_fig_theme(fig, x_title, y_title, height=400):
@@ -476,11 +418,11 @@ def show_results(case,lang):
     c1,c2,c3=st.columns(3)
     with c1:
         st.markdown(f'<div class="chem-card"><b>{tr(lang,"carbon")}: {carbon["source"]}</b></div>',unsafe_allow_html=True)
-        st.metric(tr(lang,"base_tn"),f'{base["tn_eff"]:.2f} mgN/L')
-        st.metric(tr(lang,"final_tn"),f'{final["tn_eff"]:.2f} mgN/L')
-        st.metric(tr(lang,"carbon_cod"),f'{carbon["added_cod_mg_l"]:.1f} mgCOD/L')
-        st.metric(tr(lang,"carbon_l_d"),f'{carbon["solution_l_d"]:.1f} L/d')
-        st.metric(tr(lang,"carbon_l_h"),f'{carbon["solution_l_h"]:.2f} L/h')
+        metric_card(tr(lang,"base_tn"), f'{base["tn_eff"]:.2f}', "mgN/L")
+        metric_card(tr(lang,"final_tn"), f'{final["tn_eff"]:.2f}', "mgN/L")
+        metric_card(tr(lang,"carbon_cod"), f'{carbon["added_cod_mg_l"]:.1f}', "mgCOD/L")
+        metric_card(tr(lang,"carbon_l_d"), f'{carbon["solution_l_d"]:.1f}', "L/d")
+        metric_card(tr(lang,"carbon_l_h"), f'{carbon["solution_l_h"]:.2f}', "L/h")
         if case["carbon"]["target_met"]:
             st.success(tr(lang,"no_carbon_needed") if carbon["added_cod_mg_l"]<=1e-9 else tr(lang,"pass"))
         else:
@@ -488,18 +430,18 @@ def show_results(case,lang):
 
     with c2:
         st.markdown(f'<div class="chem-card"><b>{tr(lang,"naoh")}</b></div>',unsafe_allow_html=True)
-        st.metric("Alkalinity final",f'{final["alk_eff"]:.1f} mg/L as CaCO₃')
-        st.metric("Alkalinity deficit",f'{naoh["alkalinity_deficit_mg_l_as_caco3"]:.1f} mg/L as CaCO₃')
-        st.metric(tr(lang,"naoh_l_d"),f'{naoh["solution_l_d"]:.1f} L/d')
-        st.metric(tr(lang,"naoh_l_h"),f'{naoh["solution_l_h"]:.2f} L/h')
+        metric_card("Alkalinity final", f'{final["alk_eff"]:.1f}', "mg/L as CaCO₃")
+        metric_card("Alkalinity deficit", f'{naoh["alkalinity_deficit_mg_l_as_caco3"]:.1f}', "mg/L as CaCO₃")
+        metric_card(tr(lang,"naoh_l_d"), f'{naoh["solution_l_d"]:.1f}', "L/d")
+        metric_card(tr(lang,"naoh_l_h"), f'{naoh["solution_l_h"]:.2f}', "L/h")
         st.caption("NaOH is calculated from ASM1 alkalinity deficit; direct dynamic pH prediction is not included.")
 
     with c3:
         st.markdown(f'<div class="chem-card"><b>{tr(lang,"pchemical")}: {p["chemical"]}</b></div>',unsafe_allow_html=True)
-        st.metric(tr(lang,"p_before"),f'{p["tp_after_bio_mg_l"]:.2f} mgP/L')
-        st.metric(tr(lang,"p_remove"),f'{p["p_remove_mg_l"]:.2f} mgP/L')
-        st.metric(tr(lang,"p_dose_mgl"),f'{p["product_dose_mg_l"]:.1f} mg/L')
-        st.metric(tr(lang,"p_dose"),f'{p["product_kg_d"]:.1f} kg/d')
+        metric_card(tr(lang,"p_before"), f'{p["tp_after_bio_mg_l"]:.2f}', "mgP/L")
+        metric_card(tr(lang,"p_remove"), f'{p["p_remove_mg_l"]:.2f}', "mgP/L")
+        metric_card(tr(lang,"p_dose_mgl"), f'{p["product_dose_mg_l"]:.1f}', "mg/L")
+        metric_card(tr(lang,"p_dose"), f'{p["product_kg_d"]:.1f}', "kg/d")
         if p["product_l_d"] is not None:
             st.caption(f'{p["product_l_d"]:.1f} L/d · {p["product_l_h"]:.2f} L/h')
         st.caption(p["basis"])
@@ -520,7 +462,7 @@ def show_results(case,lang):
         ["N", "COD / DO", "MLSS / SRT"],
         horizontal=True,
         label_visibility="collapsed",
-        key="trend_view_v24",
+        key="trend_view_v25",
     )
     if trend_view == "N":
         fig=go.Figure()
@@ -603,7 +545,7 @@ main_view = st.radio(
     [tr(lang,"run"), tr(lang,"compare")],
     horizontal=True,
     label_visibility="collapsed",
-    key="main_view_v24",
+    key="main_view_v25",
 )
 
 if main_view == tr(lang,"run"):
@@ -656,4 +598,4 @@ else:
             st.markdown(html, unsafe_allow_html=True)
 
 st.divider()
-st.caption("NCEV Cloud v2.1 · ASM1 + SciPy BDF · Engineering screening / scenario analysis. Calibrate against plant data before design guarantees.")
+st.caption("NCEV Cloud v2.5 · ASM1 + SciPy BDF · Engineering screening / scenario analysis. Calibrate against plant data before design guarantees.")
