@@ -26,7 +26,7 @@ from chemistry import (
 from fractionation import FractionationAssumptions, InfluentInput, InitialConditions, fractionate
 from i18n import LANG_OPTIONS, tr
 
-APP_VERSION = "Cloud v3.0"
+APP_VERSION = "Cloud v3.1"
 NCEV_BLUE = "#075DA8"
 NCEV_CYAN = "#19A9C7"
 NCEV_NAVY = "#0A365D"
@@ -52,14 +52,14 @@ html, body, .stApp, [data-testid="stAppViewContainer"] {{
     background: #FFFFFF !important;
     color: {NCEV_TEXT} !important;
 }}
-[data-testid="stHeader"] {{ background: rgba(255,255,255,.98) !important; }}
+[data-testid="stHeader"] {{ background: rgba(255,255,255,.98) !important; z-index: 1000 !important; }}
 [data-testid="stSidebar"], [data-testid="stSidebar"] > div {{
     background: {NCEV_SOFT} !important;
     color: {NCEV_TEXT} !important;
 }}
 .block-container {{
     max-width: 1500px;
-    padding-top: 1rem;
+    padding-top: 4.75rem !important;
     padding-bottom: 3rem;
 }}
 
@@ -71,32 +71,39 @@ html, body, .stApp, [data-testid="stAppViewContainer"] {{
 }}
 h1, h2, h3, h4, h5, h6 {{ color: {NCEV_NAVY} !important; }}
 
-/* Number input: one border only, white field, dark text, pale-blue +/- */
+/* Number input: strip BaseWeb/native inner borders, draw ONE uniform outline on the outer control. */
 [data-testid="stNumberInput"] div[data-baseweb="input"] {{
     background: #FFFFFF !important;
-    border: 1px solid {NCEV_BORDER} !important;
+    border: 0 !important;
     border-radius: 9px !important;
-    box-shadow: none !important;
+    box-shadow: inset 0 0 0 1px {NCEV_BORDER} !important;
     outline: none !important;
     overflow: hidden !important;
 }}
-[data-testid="stNumberInput"] div[data-baseweb="base-input"] {{
-    background: #FFFFFF !important;
-    border: 0 !important;
+[data-testid="stNumberInput"] div[data-baseweb="input"] *,
+[data-testid="stNumberInput"] div[data-baseweb="base-input"],
+[data-testid="stNumberInput"] div[data-baseweb="base-input"] *,
+[data-testid="stNumberInput"] input {{
     box-shadow: none !important;
     outline: none !important;
 }}
+[data-testid="stNumberInput"] div[data-baseweb="base-input"],
 [data-testid="stNumberInput"] input {{
     background: #FFFFFF !important;
     color: {NCEV_TEXT} !important;
     -webkit-text-fill-color: {NCEV_TEXT} !important;
     border: 0 !important;
+}}
+[data-testid="stNumberInput"] div[data-baseweb="input"]::before,
+[data-testid="stNumberInput"] div[data-baseweb="input"]::after,
+[data-testid="stNumberInput"] div[data-baseweb="base-input"]::before,
+[data-testid="stNumberInput"] div[data-baseweb="base-input"]::after {{
+    border: 0 !important;
     box-shadow: none !important;
-    outline: none !important;
 }}
 [data-testid="stNumberInput"] div[data-baseweb="input"]:focus-within {{
-    border: 1px solid {NCEV_BLUE} !important;
-    box-shadow: none !important;
+    border: 0 !important;
+    box-shadow: inset 0 0 0 1px {NCEV_BLUE} !important;
 }}
 [data-testid="stNumberInput"] button {{
     background: #EAF5FB !important;
@@ -113,26 +120,31 @@ h1, h2, h3, h4, h5, h6 {{ color: {NCEV_NAVY} !important; }}
     stroke: {NCEV_BLUE} !important;
 }}
 
-/* Select boxes: always light, complete border, dark arrow/text */
-[data-testid="stSelectbox"] div[data-baseweb="select"] > div {{
+/* Select boxes: use broad BaseWeb selectors so language + chemical selects stay light. */
+[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+div[data-baseweb="select"] > div {{
     background: #FFFFFF !important;
     color: {NCEV_TEXT} !important;
-    border: 1px solid {NCEV_BORDER} !important;
+    border: 0 !important;
     border-radius: 9px !important;
-    box-shadow: none !important;
+    box-shadow: inset 0 0 0 1px {NCEV_BORDER} !important;
     outline: none !important;
 }}
-[data-testid="stSelectbox"] div[data-baseweb="select"] > div:focus-within {{
-    border: 1px solid {NCEV_BLUE} !important;
-    box-shadow: none !important;
+[data-testid="stSelectbox"] div[data-baseweb="select"] > div:focus-within,
+div[data-baseweb="select"] > div:focus-within {{
+    border: 0 !important;
+    box-shadow: inset 0 0 0 1px {NCEV_BLUE} !important;
 }}
-[data-testid="stSelectbox"] div[data-baseweb="select"] * {{
+[data-testid="stSelectbox"] div[data-baseweb="select"] *,
+div[data-baseweb="select"] * {{
     color: {NCEV_TEXT} !important;
     -webkit-text-fill-color: {NCEV_TEXT} !important;
 }}
-[data-testid="stSelectbox"] svg {{
+[data-testid="stSelectbox"] svg,
+div[data-baseweb="select"] svg {{
     color: {NCEV_NAVY} !important;
     fill: {NCEV_NAVY} !important;
+    stroke: {NCEV_NAVY} !important;
 }}
 div[data-baseweb="popover"], div[data-baseweb="popover"] > div,
 [role="listbox"] {{ background: #FFFFFF !important; color: {NCEV_TEXT} !important; }}
@@ -171,13 +183,21 @@ div[data-baseweb="popover"], div[data-baseweb="popover"] > div,
 }}
 .stDownloadButton > button * {{ color: {NCEV_NAVY} !important; }}
 
-/* Expanders / alerts */
-[data-testid="stExpander"] {{
+/* Expanders / alerts: force the collapsed header itself to light background. */
+[data-testid="stExpander"], details[data-testid="stExpander"] {{
     background: #FFFFFF !important;
     border: 1px solid #CFE0E9 !important;
     border-radius: 9px !important;
+    overflow: hidden !important;
 }}
-[data-testid="stExpander"] summary, [data-testid="stExpander"] summary * {{ color: {NCEV_TEXT} !important; }}
+[data-testid="stExpander"] summary,
+details[data-testid="stExpander"] > summary {{
+    background: #FFFFFF !important;
+    color: {NCEV_TEXT} !important;
+    border: 0 !important;
+}}
+[data-testid="stExpander"] summary *,
+details[data-testid="stExpander"] > summary * {{ color: {NCEV_TEXT} !important; }}
 [data-testid="stAlert"] {{ color: {NCEV_TEXT} !important; }}
 
 /* Header */
